@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_PERSONALIZATION_SIGNALS</key>
+	<false/>
+	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE</key>
+	<false/>
+	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_USER_DATA</key>
+	<false/>
+	<key>GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE</key>
+	<false/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>OneSignal_app_groups_key</key>
+	<string>group.com.evgeniikrutov.LullabiesWithNightLight.onesignal</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>NewYorkExtraLarge_Semibold.ttf</string>
+		<string>NewYorkMedium-Medium.ttf</string>
+		<string>NewYorkMedium-Heavy.ttf</string>
+		<string>NewYorkSmall-Black.ttf</string>
+		<string>NewYorkSmall-Medium.ttf</string>
+		<string>NewYorkLarge-Black.ttf</string>
+		<string>NewYorkLarge-Medium.ttf</string>
+		<string>NewYorkSmall-Bold.ttf</string>
+		<string>NewYorkMedium-Regular.ttf</string>
+		<string>NewYorkSmall-Regular.ttf</string>
+		<string>NewYorkMedium-Semibold.ttf</string>
+		<string>NewYorkMedium-Black.ttf</string>
+		<string>NewYorkLarge-Regular.ttf</string>
+		<string>NewYorkSmall-Heavy.ttf</string>
+		<string>NewYorkLarge-Semibold.ttf</string>
+		<string>NewYorkMedium-Bold.ttf</string>
+		<string>NewYorkLarge-Bold.ttf</string>
+		<string>NewYorkSmall-Semibold.ttf</string>
+		<string>NewYorkLarge-Heavy.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
+</dict>
+</plist>

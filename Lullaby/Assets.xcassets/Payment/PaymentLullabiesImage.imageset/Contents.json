@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "Default_A_magical_smiling_little_white_bear_with_headphones_li_0 (2) 2.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Default_A_magical_smiling_little_white_bear_with_headphones_li_0 (2) 2@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Default_A_magical_smiling_little_white_bear_with_headphones_li_0 (2) 2@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
