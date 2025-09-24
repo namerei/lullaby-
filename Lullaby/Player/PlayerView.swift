@@ -60,7 +60,8 @@ struct PlayerView: View {
             .toolbar(.hidden, for: .tabBar)
             .sheet(isPresented: $showSleepTimerSheet) {
                 SleepTimerView(viewModel: playerVM)
-                    .presentationDetents([.fraction(0.7)])
+                    .presentationDetents([.fraction(0.95)])
+                    .presentationDragIndicator(.visible)
             }
         }
     }
@@ -227,7 +228,9 @@ struct PlayerView: View {
                 }, label: {
                     Image(.forward30Icon)
                 })
+                .offset(y: 4)
                 .frame(maxWidth: .infinity)
+                
                 TimerButton()
                     .frame(maxWidth: .infinity)
             }
@@ -303,6 +306,9 @@ struct PlayerView: View {
 //                TimerButton()
 //                    .frame(maxWidth: 60)
 //            Text("her")
+            
+            playFromStartButton()
+                .frame(maxWidth: .infinity)
 
             Button(action: {
                 playerVM.back15()
@@ -310,6 +316,7 @@ struct PlayerView: View {
                 Image(.back15Icon)
             })
             .frame(maxWidth: .infinity)
+            
             Button(action: {
                 if paid == true || playerVM.getCurrentIndex() == 0 {
                     if playerVM.isPlaying == true {
@@ -328,11 +335,13 @@ struct PlayerView: View {
                 }
             })
             .frame(maxWidth: .infinity)
+            
             Button(action: {
                 playerVM.forward30()
             }, label: {
                 Image(.forward30Icon)
             })
+            .offset(y: 4)
             .frame(maxWidth: .infinity)
             
             TimerButton()

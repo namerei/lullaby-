@@ -98,6 +98,7 @@ final class PlayerViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
     @Published var sleepTimerIsActive: Bool = false
     @Published var sleepRemainingSeconds: TimeInterval = 0
     private var sleepTimer: Timer?
+    @Published var sleepUntilEndOfTrack: Bool = false
     
     @MainActor
     func play() {
@@ -261,6 +262,13 @@ final class PlayerViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
 
     // MARK: Auto-next helpers
     private func playNext() {
+        if sleepUntilEndOfTrack {
+            DispatchQueue.main.async { [weak self] in
+                self?.sleepUntilEndOfTrack = false
+                self?.stop()
+            }
+            return
+        }
         guard let next = nextAudio() else {
             // нет следующего — остановим воспроизведение
             DispatchQueue.main.async { [weak self] in

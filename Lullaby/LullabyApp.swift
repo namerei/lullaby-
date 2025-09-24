@@ -70,6 +70,7 @@ struct LullabyApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
+                
                 if onboarding == true {
                     OnboardingView()
                 } else {

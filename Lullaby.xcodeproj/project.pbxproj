@@ -69,6 +69,8 @@
 		CAFB0A3A2B2458980043D934 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB0A392B2458980043D934 /* SettingsViewModel.swift */; };
 		CAFB0A3D2B24958E0043D934 /* Products.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAFB0A3C2B24958E0043D934 /* Products.plist */; };
 		CAFB0A3F2B249EA10043D934 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAFB0A3E2B249EA10043D934 /* Launch Screen.storyboard */; };
+		CF6090BC2E84615400BF6BBB /* SecondPaywall.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6090BB2E84615400BF6BBB /* SecondPaywall.swift */; };
+		CF6090BF2E8461E700BF6BBB /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = CF6090BE2E8461E700BF6BBB /* RevenueCat */; };
 		CF822A902E841A2B00E8570F /* SleepTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF822A8F2E841A2B00E8570F /* SleepTimerView.swift */; };
 		E5CE74692E7871070006DF1B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E5CE74682E7871070006DF1B /* FirebaseAnalytics */; };
 		E5CE746B2E7871080006DF1B /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = E5CE746A2E7871080006DF1B /* FirebaseAnalyticsCore */; };
@@ -153,6 +155,7 @@
 		CAFB0A3B2B248C9F0043D934 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		CAFB0A3C2B24958E0043D934 /* Products.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Products.plist; sourceTree = "<group>"; };
 		CAFB0A3E2B249EA10043D934 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		CF6090BB2E84615400BF6BBB /* SecondPaywall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPaywall.swift; sourceTree = "<group>"; };
 		CF822A8F2E841A2B00E8570F /* SleepTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerView.swift; sourceTree = "<group>"; };
 		E5CE74842E78A60D0006DF1B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -168,6 +171,7 @@
 			files = (
 				CAE561282B20B2020058F6C3 /* AmplitudeSwift in Frameworks */,
 				811E656C2D43D546006F43F6 /* ApphudSDK in Frameworks */,
+				CF6090BF2E8461E700BF6BBB /* RevenueCat in Frameworks */,
 				E5CE74692E7871070006DF1B /* FirebaseAnalytics in Frameworks */,
 				E5CE746B2E7871080006DF1B /* FirebaseAnalyticsCore in Frameworks */,
 			);
@@ -292,6 +296,7 @@
 				CF822A8F2E841A2B00E8570F /* SleepTimerView.swift */,
 				CA0BDDD12B1E135A0099A578 /* PlayerView.swift */,
 				CA0BDDE32B1F5F940099A578 /* PlayerViewModel.swift */,
+				CF6090BB2E84615400BF6BBB /* SecondPaywall.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";
@@ -410,6 +415,7 @@
 				811E656B2D43D546006F43F6 /* ApphudSDK */,
 				E5CE74682E7871070006DF1B /* FirebaseAnalytics */,
 				E5CE746A2E7871080006DF1B /* FirebaseAnalyticsCore */,
+				CF6090BE2E8461E700BF6BBB /* RevenueCat */,
 			);
 			productName = Lullaby;
 			productReference = CA0BDDAE2B1E08D00099A578 /* Lullaby.app */;
@@ -449,6 +455,7 @@
 				CAE561262B20B2020058F6C3 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
 				811E656A2D43D546006F43F6 /* XCRemoteSwiftPackageReference "ApphudSDK" */,
 				E5CE74672E7871070006DF1B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				CF6090BD2E8461E700BF6BBB /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 			);
 			productRefGroup = CA0BDDAF2B1E08D00099A578 /* Products */;
 			projectDirPath = "";
@@ -509,6 +516,7 @@
 				CA0BDDC42B1E0AC90099A578 /* SettingsView.swift in Sources */,
 				CA0BDDCD2B1E0B130099A578 /* Custom+Tab+Nav.swift in Sources */,
 				CA0E38252B1FA5F700C3E5CF /* PaywallView.swift in Sources */,
+				CF6090BC2E84615400BF6BBB /* SecondPaywall.swift in Sources */,
 				CA0BDDCF2B1E11AC0099A578 /* Navigation.swift in Sources */,
 				CA0BDDD52B1E160F0099A578 /* Utils.swift in Sources */,
 				CA0BDDDC2B1E18730099A578 /* Model.swift in Sources */,
@@ -785,6 +793,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		CF6090BD2E8461E700BF6BBB /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.39.3;
+			};
+		};
 		E5CE74672E7871070006DF1B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -805,6 +821,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CAE561262B20B2020058F6C3 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */;
 			productName = AmplitudeSwift;
+		};
+		CF6090BE2E8461E700BF6BBB /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CF6090BD2E8461E700BF6BBB /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
 		};
 		E5CE74682E7871070006DF1B /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

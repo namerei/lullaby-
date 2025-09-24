@@ -234,6 +234,16 @@
         }
       }
     },
+    "%@ / %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ / %2$@"
+          }
+        }
+      }
+    },
     "%@/week" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2578,6 +2588,9 @@
         }
       }
     },
+    "Don’t want another subscription?" : {
+
+    },
     "Dorothy journeys through Oz with quirky companions, seeking the Wizard for a way home." : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2994,6 +3007,9 @@
           }
         }
       }
+    },
+    "Get lifetime access!" : {
+
     },
     "Gingerbread man and Christmas tree join festive adventures, spreading joy in a heartwarming holiday tale." : {
       "extractionState" : "manual",
@@ -7182,6 +7198,9 @@
         }
       }
     },
+    "No recurring charges" : {
+
+    },
     "No subscription, pay once" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -7235,6 +7254,9 @@
     "Nothing in these Terms excludes, restricts or modifies any guarantee, condition, warranty, right or remedy which the User may have under the Competition and Consumer Act 2010 (Cth) or any similar State and Territory legislation and which cannot be excluded, restricted or modified (non-excludable right). To the fullest extent permitted by law, our liability to the User, including liability for a breach of a non-excludable right and liability which is not otherwise excluded under these Terms of Use, is limited, at the Owner’s sole discretion, to the re-performance of the services or the payment of the cost of having the services supplied again" : {
 
     },
+    "Now playing" : {
+
+    },
     "Once the retention period expires, Personal Data shall be deleted. Therefore, the right to access, the right to erasure, the right to rectification and the right to data portability cannot be enforced after expiration of the retention period" : {
 
     },
@@ -7284,6 +7306,12 @@
           }
         }
       }
+    },
+    "One-time opportunity" : {
+
+    },
+    "Only billed once" : {
+
     },
     "Owner and Data Controller" : {
 
@@ -7727,6 +7755,9 @@
       }
     },
     "Provides the ability to manage ads and call the Facebook Ads API on behalf of a User" : {
+
+    },
+    "Purchase" : {
 
     },
     "Rapunzel Story" : {
@@ -10044,6 +10075,9 @@
       }
     },
     "US Users" : {
+
+    },
+    "Use the app anytime, forever" : {
 
     },
     "Users are also entitled to learn about the legal basis of Data transfers to a country outside the European Union or to any international organization governed by public international law or set up by two or more countries, such as the UN, and about the security measures taken by the Owner to safeguard their Data" : {
