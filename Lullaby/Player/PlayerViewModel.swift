@@ -9,7 +9,7 @@ import Foundation
 import AVFoundation
 import MediaPlayer
 
-final class PlayerViewModel: ObservableObject {
+final class PlayerViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
     @Published var feed: [AudioModel] = [] {
         didSet {
             try? self.getAudio()
@@ -214,7 +214,8 @@ final class PlayerViewModel: ObservableObject {
                 try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, policy: .longFormAudio, options: [])
                 self.setupRemoteControl()
                 self.player = try AVAudioPlayer(data: data)
-                self.player?.numberOfLoops = -1
+                self.player?.delegate = self
+                self.player?.numberOfLoops = 0
                 DispatchQueue.main.async { [weak self] in
                     self?.isDownloaded = true
                     self?.playerIsReady = true
@@ -237,11 +238,7 @@ final class PlayerViewModel: ObservableObject {
                 self.remotePlayer?.actionAtItemEnd = .none
                 if let item = self.remotePlayer?.currentItem {
                     self.remoteEndObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: item, queue: .main) { [weak self] _ in
-                        guard let self, let player = self.remotePlayer else { return }
-                        player.seek(to: .zero) { _ in
-                            player.play()
-                            self.remoteAudioIsPlaying = true
-                        }
+                        self?.playNext()
                     }
                 }
                 DispatchQueue.main.async { [weak self] in
@@ -260,6 +257,26 @@ final class PlayerViewModel: ObservableObject {
             }
             throw DownloadError.currentAudioNotFound
         }
+    }
+
+    // MARK: Auto-next helpers
+    private func playNext() {
+        guard let next = nextAudio() else {
+            // нет следующего — остановим воспроизведение
+            DispatchQueue.main.async { [weak self] in
+                self?.stop()
+            }
+            return
+        }
+        DispatchQueue.main.async { [weak self] in
+            self?.currentId = next.id
+            self?.isPlaying = true
+        }
+    }
+
+    // AVAudioPlayerDelegate
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        playNext()
     }
     
     func downloadAudio() async throws {
