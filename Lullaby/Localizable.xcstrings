@@ -259,9 +259,6 @@
     "%lld" : {
 
     },
-    "%lld m" : {
-
-    },
     "%lld mins" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -16,6 +16,7 @@ struct PlayerView: View {
     @GestureState private var topDragOffset: CGSize = .zero
     @State private var isDraggingControl: Bool = false
     @State private var passedTimeWidth: CGFloat = 0
+    @State private var isDraggingTop: Bool = false
     @State private var showSleepTimerSheet: Bool = false
     
     let id: UUID
@@ -77,17 +78,19 @@ struct PlayerView: View {
                         .padding(10)
                 }
                 .frame(width: 300, height: 300)
-                .opacity(playerVM.getItemIndex(for: item) == playerVM.getCurrentIndex() ? 1 : 0.8)
-                .scaleEffect(playerVM.getItemIndex(for: item) == playerVM.getCurrentIndex() ? 1.1 : 0.9)
-                .offset(
-                    x: CGFloat(playerVM.getItemIndex(for: item) - playerVM.getCurrentIndex()) * 300 + topDragOffset.width
-                )
+                .modifier(TopCardTransform(
+                    index: playerVM.getItemIndex(for: item),
+                    currentIndex: playerVM.getCurrentIndex(),
+                    dragOffsetX: topDragOffset.width,
+                    isDragging: isDraggingTop
+                ))
             }
         }
         .gesture(
             DragGesture()
                 .updating($topDragOffset, body: { value, state, transaction in
                     state = value.translation
+                    if isDraggingTop == false { isDraggingTop = true }
                 })
                 .onEnded({ value in
                     let threshold: CGFloat = 50
@@ -99,8 +102,30 @@ struct PlayerView: View {
                         let currentIndex = playerVM.getCurrentIndex()
                         playerVM.currentId = playerVM.feed[min(currentIndex + 1, playerVM.feed.count - 1)].id
                     }
+                    // trigger spring settle of cards back to position
+                    isDraggingTop = false
                 })
         )
+    }
+
+    // Smooth transform for top carousel cards
+    struct TopCardTransform: ViewModifier {
+        let index: Int
+        let currentIndex: Int
+        let dragOffsetX: CGFloat
+        let isDragging: Bool
+
+        func body(content: Content) -> some View {
+            let baseOffset = CGFloat(index - currentIndex) * 300 + dragOffsetX
+            let normalized = min(abs(baseOffset) / 300, 1)
+            let scale = 1.1 - 0.2 * normalized    // 1.1 at center -> 0.9 on neighbor
+            let opacity = 1.0 - 0.2 * normalized  // 1.0 at center -> 0.8 on neighbor
+            return content
+                .scaleEffect(scale)
+                .opacity(opacity)
+                .offset(x: baseOffset)
+                .animation(.interactiveSpring(response: 0.28, dampingFraction: 0.85, blendDuration: 0.1), value: isDragging)
+        }
     }
     
     @ViewBuilder

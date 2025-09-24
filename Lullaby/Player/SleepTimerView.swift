@@ -58,18 +58,18 @@ struct SleepTimerView: View {
             )
 
             // quick presets (limited to 60m)
-            HStack(spacing: 12) {
-                ForEach([10, 20, 30, 45, 60], id: \.self) { m in
-                    Button(action: { selectedMinutes = m }) {
-                        Text("\(m) m")
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(
-                                Capsule().fill(m == selectedMinutes ? Color.primary.opacity(0.15) : Color.secondary.opacity(0.15))
-                            )
-                    }
-                }
-            }
+//            HStack(spacing: 12) {
+//                ForEach([10, 20, 30, 45, 60], id: \.self) { m in
+//                    Button(action: { selectedMinutes = m }) {
+//                        Text("\(m) m")
+//                            .padding(.horizontal, 12)
+//                            .padding(.vertical, 8)
+//                            .background(
+//                                Capsule().fill(m == selectedMinutes ? Color.primary.opacity(0.15) : Color.secondary.opacity(0.15))
+//                            )
+//                    }
+//                }
+//            }
 
             VStack(spacing: 12) {
                 Button {
@@ -81,7 +81,10 @@ struct SleepTimerView: View {
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 12).fill(Color.primary))
                         .foregroundStyle(.gray)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .background(Color.yellow)
                 }
+                .padding()
 
                 if viewModel.sleepTimerIsActive {
                     Button {
