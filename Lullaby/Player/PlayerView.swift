@@ -61,7 +61,7 @@ struct PlayerView: View {
             .toolbar(.hidden, for: .tabBar)
             .sheet(isPresented: $showSleepTimerSheet) {
                 SleepTimerView(viewModel: playerVM)
-                    .presentationDetents([.medium])
+                    .presentationDetents([.fraction(0.66)])
             }
         }
     }

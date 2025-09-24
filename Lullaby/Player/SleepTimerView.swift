@@ -14,6 +14,8 @@ struct SleepTimerView: View {
     // minutes range 1...60
     @State private var selectedMinutes: Int = 30
     @State private var angle: Angle = .degrees(0)
+    @State private var isPressingHandle: Bool = false
+    private let accent = Color.yellow
 
     var body: some View {
         VStack(spacing: 24) {
@@ -23,17 +25,32 @@ struct SleepTimerView: View {
 
             ZStack {
                 Circle()
-                    .stroke(Color.secondary.opacity(0.3), lineWidth: 16)
+                    .stroke(Color.secondary.opacity(0.25), lineWidth: 10)
                     .frame(width: 240, height: 240)
 
                 // progress arc
                 Circle()
                     .trim(from: 0, to: CGFloat(Double(selectedMinutes) / 60.0))
-                    .stroke(Color.primary, style: StrokeStyle(lineWidth: 16, lineCap: .round))
+                    .stroke(accent, style: StrokeStyle(lineWidth: 10, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .frame(width: 240, height: 240)
 
-                // hidden handle (no visible knob)
+                // handle halo when pressing
+                if isPressingHandle {
+                    GeometryReader { geo in
+                        let size = min(geo.size.width, geo.size.height)
+                        let radius = size / 2
+                        let progress = Double(selectedMinutes) / 60.0
+                        let theta = 2 * Double.pi * progress - Double.pi / 2
+                        let x = radius + (radius - 8) * cos(theta)
+                        let y = radius + (radius - 8) * sin(theta)
+                        Circle()
+                            .fill(accent.opacity(0.25))
+                            .frame(width: 44, height: 44)
+                            .position(x: x, y: y)
+                    }
+                    .frame(width: 240, height: 240)
+                }
 
                 // center label
                 VStack(spacing: 4) {
@@ -46,6 +63,7 @@ struct SleepTimerView: View {
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
+                        if isPressingHandle == false { isPressingHandle = true }
                         let center = CGPoint(x: 120, y: 120)
                         let dx = value.location.x - center.x
                         let dy = value.location.y - center.y
@@ -54,6 +72,9 @@ struct SleepTimerView: View {
                         if progress < 0 { progress += 1 }
                         let mins = Int(round(progress * 60))
                         selectedMinutes = min(max(mins, 1), 60)
+                    }
+                    .onEnded { _ in
+                        isPressingHandle = false
                     }
             )
 
@@ -76,13 +97,11 @@ struct SleepTimerView: View {
                     viewModel.startSleepTimer(totalSeconds: TimeInterval(selectedMinutes * 60))
                     dismiss()
                 } label: {
-                    Text("Start Timer")
+                    Text("Start")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(RoundedRectangle(cornerRadius: 12).fill(Color.primary))
-                        .foregroundStyle(.gray)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .background(Color.yellow)
+                        .background(RoundedRectangle(cornerRadius: 12).fill(accent))
+                        .foregroundStyle(Color.black)
                 }
                 .padding()
 
@@ -91,7 +110,7 @@ struct SleepTimerView: View {
                         viewModel.cancelSleepTimer()
                         dismiss()
                     } label: {
-                        Text("Cancel")
+                        Text("Stop")
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 12).stroke(Color.primary))
