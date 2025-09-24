@@ -164,19 +164,6 @@ final class PlayerViewModel: ObservableObject {
                     }
                 }
             }
-            // Sleep timer ticking
-            if let self = self, self.sleepTimerIsActive == true {
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
-                    self.sleepRemainingSeconds = max(0, self.sleepRemainingSeconds - 0.3)
-                    if self.sleepRemainingSeconds <= 0 {
-                        self.sleepTimerIsActive = false
-                        self.sleepTimer?.invalidate()
-                        self.sleepTimer = nil
-                        self.stop()
-                    }
-                }
-            }
         }
     }
 
@@ -184,7 +171,8 @@ final class PlayerViewModel: ObservableObject {
     @MainActor
     func startSleepTimer(totalSeconds: TimeInterval) {
         self.sleepTimer?.invalidate()
-        self.sleepRemainingSeconds = max(0, totalSeconds)
+        // Clamp to 0...3600 (60 minutes)
+        self.sleepRemainingSeconds = min(3600, max(0, totalSeconds))
         self.sleepTimerIsActive = self.sleepRemainingSeconds > 0
         if self.sleepTimerIsActive == false { return }
         self.sleepTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
