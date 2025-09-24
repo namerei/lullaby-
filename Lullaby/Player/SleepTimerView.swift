@@ -73,12 +73,21 @@ struct SleepTimerView: View {
 
                 // center label
                 VStack(spacing: 4) {
-                    Text("\(selectedMinutes)")
-                        .customFont(.lg, size: 34)
-                        .fontWeight(.bold)
-                    Text("Minutes")
-                        .customFont(.lg, size: 18)
-                        .foregroundStyle(.white.opacity(0.8))
+                    if viewModel.sleepTimerIsActive {
+                        Text("\(Utils.shared.timeString(time: max(0, viewModel.sleepRemainingSeconds)))")
+                            .customFont(.lg, size: 34)
+                            .fontWeight(.bold)
+                        Text("Remaining")
+                            .customFont(.lg, size: 18)
+                            .foregroundStyle(.white.opacity(0.8))
+                    } else {
+                        Text("\(selectedMinutes)")
+                            .customFont(.lg, size: 34)
+                            .fontWeight(.bold)
+                        Text("Minutes")
+                            .customFont(.lg, size: 18)
+                            .foregroundStyle(.white.opacity(0.8))
+                    }
                 }
             }
             .gesture(
@@ -92,7 +101,11 @@ struct SleepTimerView: View {
                         var progress = angle / (2 * .pi)
                         if progress < 0 { progress += 1 }
                         let mins = Int(round(progress * 60))
-                        selectedMinutes = min(max(mins, 1), 60)
+                        let clamped = min(max(mins, 1), 60)
+                        selectedMinutes = clamped
+                        if viewModel.sleepTimerIsActive {
+                            viewModel.sleepRemainingSeconds = Double(clamped * 60)
+                        }
                     }
                     .onEnded { _ in
                         isPressingHandle = false
@@ -114,17 +127,6 @@ struct SleepTimerView: View {
 //            }
 
             VStack(spacing: 12) {
-                Button {
-                    viewModel.startSleepTimer(totalSeconds: TimeInterval(selectedMinutes * 60))
-                    dismiss()
-                } label: {
-                    Text("Start")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 12).fill(accent))
-                        .foregroundStyle(Color.white)
-                }
-
                 if viewModel.sleepTimerIsActive {
                     Button {
                         viewModel.cancelSleepTimer()
@@ -133,7 +135,19 @@ struct SleepTimerView: View {
                         Text("Stop")
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(RoundedRectangle(cornerRadius: 12).stroke(Color.primary))
+                            .background(RoundedRectangle(cornerRadius: 12).fill(accent))
+                            .foregroundStyle(Color.white)
+                    }
+                } else {
+                    Button {
+                        viewModel.startSleepTimer(totalSeconds: TimeInterval(selectedMinutes * 60))
+                        dismiss()
+                    } label: {
+                        Text("Start")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 12).fill(accent))
+                            .foregroundStyle(Color.white)
                     }
                 }
             }
