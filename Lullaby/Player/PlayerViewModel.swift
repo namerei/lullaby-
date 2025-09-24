@@ -183,8 +183,8 @@ final class PlayerViewModel: ObservableObject {
     @MainActor
     func startSleepTimer(totalSeconds: TimeInterval) {
         self.sleepTimer?.invalidate()
-        // Clamp to 0...3600 (60 minutes)
-        self.sleepRemainingSeconds = min(3600, max(0, totalSeconds))
+        // Clamp to 0...10800 (180 minutes)
+        self.sleepRemainingSeconds = min(10800, max(0, totalSeconds))
         self.sleepTimerIsActive = self.sleepRemainingSeconds > 0
         if self.sleepTimerIsActive == false { return }
         self.sleepTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in

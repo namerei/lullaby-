@@ -399,7 +399,10 @@ struct PlayerView: View {
             showSleepTimerSheet = true
         }, label: {
             VStack(spacing: 2) {
-                Image(systemName: "moon.zzz")
+                Image("moon_zzz")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
                 if playerVM.sleepTimerIsActive {
                     Text(Utils.shared.timeString(time: max(0, playerVM.sleepRemainingSeconds)))
                         .font(.caption2)
@@ -414,13 +417,10 @@ struct PlayerView: View {
         Button(action: {
             playerVM.restartFromBeginning()
         }, label: {
-            VStack(spacing: 2) {
-                Image(systemName: "arrow.uturn.backward")
-                if playerVM.sleepTimerIsActive {
-                    Text(Utils.shared.timeString(time: max(0, playerVM.sleepRemainingSeconds)))
-                        .font(.caption2)
-                }
-            }
+            Image("Frame 77")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 24, height: 24)
         })
         .foregroundStyle(.primary)
     }
