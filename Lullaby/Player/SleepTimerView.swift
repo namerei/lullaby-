@@ -12,26 +12,27 @@ struct SleepTimerView: View {
     @ObservedObject var viewModel: PlayerViewModel
 
     // minutes range 1...60
-    @State private var selectedMinutes: Int = 30
+    @State private var selectedMinutes: Int = 5
     @State private var angle: Angle = .degrees(0)
     @State private var isPressingHandle: Bool = false
-    private let accent = Color.yellow
+    private let accent = Color("BaseOrange")
 
     var body: some View {
         VStack(spacing: 24) {
             Text("Sleep Timer")
-                .font(.title2)
-                .fontWeight(.semibold)
+                .offset(y: -30)
+                .customFont(.xl, size: 30)
+                .fontWeight(.bold)
 
             ZStack {
                 Circle()
-                    .stroke(Color.secondary.opacity(0.25), lineWidth: 10)
+                    .stroke(Color.secondary.opacity(0.25), lineWidth: 8)
                     .frame(width: 240, height: 240)
 
                 // progress arc
                 Circle()
                     .trim(from: 0, to: CGFloat(Double(selectedMinutes) / 60.0))
-                    .stroke(accent, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                    .stroke(accent, style: StrokeStyle(lineWidth: 8, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .frame(width: 240, height: 240)
 
@@ -46,18 +47,37 @@ struct SleepTimerView: View {
                         let y = radius + (radius - 8) * sin(theta)
                         Circle()
                             .fill(accent.opacity(0.25))
-                            .frame(width: 44, height: 44)
+                            .frame(width: 34, height: 34)
                             .position(x: x, y: y)
                     }
                     .frame(width: 240, height: 240)
                 }
+                
+                GeometryReader { geo in
+                    let size = min(geo.size.width, geo.size.height)
+                    let radius = size / 2
+                    let progress = Double(selectedMinutes) / 60.0
+                    let theta = 2 * Double.pi * progress - Double.pi / 2
+                    let x = radius + (radius - 8) * cos(theta)
+                    let y = radius + (radius - 8) * sin(theta)
+                    
+                    Circle()
+                        .fill(accent)
+                        .frame(width: 1, height: 1)
+                        .position(x: x, y: y)
+                        .scaleEffect(20)
+                    
+                }
+                .frame(width: 240, height: 240)
 
                 // center label
                 VStack(spacing: 4) {
-                    Text("Minutes")
-                        .foregroundStyle(.secondary)
                     Text("\(selectedMinutes)")
-                        .font(.system(size: 48, weight: .bold))
+                        .customFont(.lg, size: 30)
+                        .fontWeight(.bold)
+                    Text("Minutes")
+                        .customFont(.lg, size: 22)
+                        .foregroundStyle(.secondary)
                 }
             }
             .gesture(

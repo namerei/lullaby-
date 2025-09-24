@@ -302,7 +302,7 @@ struct PlayerView: View {
 //                Spacer()
 //                TimerButton()
 //                    .frame(maxWidth: 60)
-            Text("her")
+//            Text("her")
 
             Button(action: {
                 playerVM.back15()
@@ -335,9 +335,8 @@ struct PlayerView: View {
             })
             .frame(maxWidth: .infinity)
             
-//            TimerButton()
-//                .frame(maxWidth: 60)
-//                Spacer()
+            TimerButton()
+            .frame(maxWidth: .infinity)
         }
     }
     
