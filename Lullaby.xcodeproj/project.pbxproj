@@ -69,6 +69,7 @@
 		CAFB0A3A2B2458980043D934 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB0A392B2458980043D934 /* SettingsViewModel.swift */; };
 		CAFB0A3D2B24958E0043D934 /* Products.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAFB0A3C2B24958E0043D934 /* Products.plist */; };
 		CAFB0A3F2B249EA10043D934 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAFB0A3E2B249EA10043D934 /* Launch Screen.storyboard */; };
+		CF822A902E841A2B00E8570F /* SleepTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF822A8F2E841A2B00E8570F /* SleepTimerView.swift */; };
 		E5CE74692E7871070006DF1B /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E5CE74682E7871070006DF1B /* FirebaseAnalytics */; };
 		E5CE746B2E7871080006DF1B /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = E5CE746A2E7871080006DF1B /* FirebaseAnalyticsCore */; };
 		E5CE74852E78A60D0006DF1B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E5CE74842E78A60D0006DF1B /* GoogleService-Info.plist */; };
@@ -152,6 +153,7 @@
 		CAFB0A3B2B248C9F0043D934 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		CAFB0A3C2B24958E0043D934 /* Products.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Products.plist; sourceTree = "<group>"; };
 		CAFB0A3E2B249EA10043D934 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		CF822A8F2E841A2B00E8570F /* SleepTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepTimerView.swift; sourceTree = "<group>"; };
 		E5CE74842E78A60D0006DF1B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -287,6 +289,7 @@
 		CA0BDDD02B1E13410099A578 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				CF822A8F2E841A2B00E8570F /* SleepTimerView.swift */,
 				CA0BDDD12B1E135A0099A578 /* PlayerView.swift */,
 				CA0BDDE32B1F5F940099A578 /* PlayerViewModel.swift */,
 			);
@@ -520,6 +523,7 @@
 				CA0E38222B1FA48D00C3E5CF /* OnboardingView.swift in Sources */,
 				CA0BDDB42B1E08D00099A578 /* ContentView.swift in Sources */,
 				CA0E38532B1FAD7700C3E5CF /* DevicePickerView.swift in Sources */,
+				CF822A902E841A2B00E8570F /* SleepTimerView.swift in Sources */,
 				CA0BDDE22B1F5B820099A578 /* NoisesViewModel.swift in Sources */,
 				CA7BE34A2D3F5B3A00641B17 /* LoopingVideo.swift in Sources */,
 				CA3496CC2B56BA7600E0B3AF /* LanguagesViewModel.swift in Sources */,

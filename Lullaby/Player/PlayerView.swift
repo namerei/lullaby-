@@ -16,6 +16,7 @@ struct PlayerView: View {
     @GestureState private var topDragOffset: CGSize = .zero
     @State private var isDraggingControl: Bool = false
     @State private var passedTimeWidth: CGFloat = 0
+    @State private var showSleepTimerSheet: Bool = false
     
     let id: UUID
     let type: AudioModel.AudioType
@@ -53,9 +54,14 @@ struct PlayerView: View {
                 ToolbarItem(placement: .topBarTrailing) { ToolbarDownload() }
                 ToolbarItem(placement: .topBarTrailing) { Spacer().frame(width: 10) }
                 ToolbarItem(placement: .topBarTrailing) { ToolbarAirplay() }
+                ToolbarItem(placement: .topBarTrailing) { ToolbarSleepTimer() }
             }
             .navigationBarBackButtonHidden()
             .toolbar(.hidden, for: .tabBar)
+            .sheet(isPresented: $showSleepTimerSheet) {
+                SleepTimerView(viewModel: playerVM)
+                    .presentationDetents([.medium])
+            }
         }
     }
     
@@ -330,10 +336,27 @@ struct PlayerView: View {
         Button(action: {
             playerVM.remotePlayer = nil
             playerVM.player = nil
+            playerVM.cancelSleepTimer()
             _ = navigationVM.navigationPath.popLast()
         }, label: {
             Image(systemName: "chevron.left")
                 .font(.headline)
+        })
+        .foregroundStyle(.primary)
+    }
+
+    @ViewBuilder
+    func ToolbarSleepTimer() -> some View {
+        Button(action: {
+            showSleepTimerSheet = true
+        }, label: {
+            HStack(spacing: 6) {
+                Image(systemName: "timer")
+                if playerVM.sleepTimerIsActive {
+                    Text(Utils.shared.timeString(time: max(0, playerVM.sleepRemainingSeconds)))
+                        .font(.caption)
+                }
+            }
         })
         .foregroundStyle(.primary)
     }

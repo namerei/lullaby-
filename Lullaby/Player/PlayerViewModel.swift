@@ -94,6 +94,11 @@ final class PlayerViewModel: ObservableObject {
     var remotePlayer: AVPlayer?
     private var remoteEndObserver: Any?
     
+    // MARK: Sleep Timer
+    @Published var sleepTimerIsActive: Bool = false
+    @Published var sleepRemainingSeconds: TimeInterval = 0
+    private var sleepTimer: Timer?
+    
     @MainActor
     func play() {
         if let player {
@@ -116,6 +121,7 @@ final class PlayerViewModel: ObservableObject {
             remotePlayer.pause()
             remoteAudioIsPlaying = false
         }
+        // Do not auto-cancel sleep timer here; user may resume before it ends.
     }
     
     @MainActor
@@ -158,7 +164,48 @@ final class PlayerViewModel: ObservableObject {
                     }
                 }
             }
+            // Sleep timer ticking
+            if let self = self, self.sleepTimerIsActive == true {
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+                    self.sleepRemainingSeconds = max(0, self.sleepRemainingSeconds - 0.3)
+                    if self.sleepRemainingSeconds <= 0 {
+                        self.sleepTimerIsActive = false
+                        self.sleepTimer?.invalidate()
+                        self.sleepTimer = nil
+                        self.stop()
+                    }
+                }
+            }
         }
+    }
+
+    // MARK: Sleep Timer API
+    @MainActor
+    func startSleepTimer(totalSeconds: TimeInterval) {
+        self.sleepTimer?.invalidate()
+        self.sleepRemainingSeconds = max(0, totalSeconds)
+        self.sleepTimerIsActive = self.sleepRemainingSeconds > 0
+        if self.sleepTimerIsActive == false { return }
+        self.sleepTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+            guard let self else { return }
+            self.sleepRemainingSeconds = max(0, self.sleepRemainingSeconds - 1.0)
+            if self.sleepRemainingSeconds <= 0 {
+                self.sleepTimerIsActive = false
+                timer.invalidate()
+                self.sleepTimer = nil
+                self.stop()
+            }
+        }
+        RunLoop.main.add(self.sleepTimer!, forMode: .common)
+    }
+    
+    @MainActor
+    func cancelSleepTimer() {
+        self.sleepTimer?.invalidate()
+        self.sleepTimer = nil
+        self.sleepTimerIsActive = false
+        self.sleepRemainingSeconds = 0
     }
     
     func getAudio() throws {
