@@ -148,6 +148,18 @@ final class PlayerViewModel: ObservableObject {
             }
         }
     }
+
+    @MainActor
+    func restartFromBeginning() {
+        if let player {
+            player.currentTime = 0
+        }
+        if let remotePlayer {
+            remotePlayer.seek(to: .zero, toleranceBefore: .zero, toleranceAfter: .zero) { result in
+                print("RESTART RESULT: \(result)")
+            }
+        }
+    }
     
     func updateCurrentTime() {
         Timer.scheduledTimer(withTimeInterval: 0.3, repeats: true) { [weak self] timer in

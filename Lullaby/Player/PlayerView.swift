@@ -55,7 +55,6 @@ struct PlayerView: View {
                 ToolbarItem(placement: .topBarTrailing) { ToolbarDownload() }
                 ToolbarItem(placement: .topBarTrailing) { Spacer().frame(width: 10) }
                 ToolbarItem(placement: .topBarTrailing) { ToolbarAirplay() }
-                ToolbarItem(placement: .topBarTrailing) { ToolbarSleepTimer() }
             }
             .navigationBarBackButtonHidden()
             .toolbar(.hidden, for: .tabBar)
@@ -195,6 +194,10 @@ struct PlayerView: View {
             .font(.callout)
             .foregroundStyle(.secondary)
             HStack {
+                //заглушка
+                playFromStartButton()
+                    .frame(maxWidth: .infinity)
+                
                 Button(action: {
                     playerVM.back15()
                 }, label: {
@@ -225,6 +228,8 @@ struct PlayerView: View {
                     Image(.forward30Icon)
                 })
                 .frame(maxWidth: .infinity)
+                TimerButton()
+                    .frame(maxWidth: .infinity)
             }
             .padding(.vertical)
         }
@@ -279,42 +284,61 @@ struct PlayerView: View {
             }
             .font(.callout)
             .foregroundStyle(.secondary)
-            HStack {
-                Button(action: {
-                    playerVM.back15()
-                }, label: {
-                    Image(.back15Icon)
-                })
-                .frame(maxWidth: .infinity)
-                Button(action: {
-                    if paid == true || playerVM.getCurrentIndex() == 0 {
-                        if playerVM.isPlaying == true {
-                            playerVM.stop()
-                        } else {
-                            playerVM.play()
-                        }
-                    } else {
-                        skippedPayment = false
-                    }
-                }, label: {
-                    if playerVM.isPlaying == true {
-                        Image(.stopIcon)
-                    } else {
-                        Image(.playIcon)
-                    }
-                })
-                .frame(maxWidth: .infinity)
-                Button(action: {
-                    playerVM.forward30()
-                }, label: {
-                    Image(.forward30Icon)
-                })
-                .frame(maxWidth: .infinity)
-            }
+            
+            bottomButtonsSection
             .padding(.vertical)
         }
         .padding()
         .padding(.horizontal)
+    }
+    
+    
+    @MainActor
+    var bottomButtonsSection: some View {
+        HStack {
+            //заглушка
+//                TimerButton()
+//                    .frame(maxWidth: .infinity)
+//                Spacer()
+//                TimerButton()
+//                    .frame(maxWidth: 60)
+            Text("her")
+
+            Button(action: {
+                playerVM.back15()
+            }, label: {
+                Image(.back15Icon)
+            })
+            .frame(maxWidth: .infinity)
+            Button(action: {
+                if paid == true || playerVM.getCurrentIndex() == 0 {
+                    if playerVM.isPlaying == true {
+                        playerVM.stop()
+                    } else {
+                        playerVM.play()
+                    }
+                } else {
+                    skippedPayment = false
+                }
+            }, label: {
+                if playerVM.isPlaying == true {
+                    Image(.stopIcon)
+                } else {
+                    Image(.playIcon)
+                }
+            })
+            .frame(maxWidth: .infinity)
+            Button(action: {
+                playerVM.forward30()
+            }, label: {
+                Image(.forward30Icon)
+            })
+            .frame(maxWidth: .infinity)
+            
+//            TimerButton()
+//                .frame(maxWidth: 60)
+//                Spacer()
+        }
     }
     
     // MARK: Toolbar Items...
@@ -371,15 +395,31 @@ struct PlayerView: View {
     }
 
     @ViewBuilder
-    func ToolbarSleepTimer() -> some View {
+    func TimerButton() -> some View {
         Button(action: {
             showSleepTimerSheet = true
         }, label: {
-            HStack(spacing: 6) {
-                Image(systemName: "timer")
+            VStack(spacing: 2) {
+                Image(systemName: "moon.zzz")
                 if playerVM.sleepTimerIsActive {
                     Text(Utils.shared.timeString(time: max(0, playerVM.sleepRemainingSeconds)))
-                        .font(.caption)
+                        .font(.caption2)
+                }
+            }
+        })
+        .foregroundStyle(.primary)
+    }
+    
+    @ViewBuilder
+    func playFromStartButton() -> some View {
+        Button(action: {
+            playerVM.restartFromBeginning()
+        }, label: {
+            VStack(spacing: 2) {
+                Image(systemName: "arrow.uturn.backward")
+                if playerVM.sleepTimerIsActive {
+                    Text(Utils.shared.timeString(time: max(0, playerVM.sleepRemainingSeconds)))
+                        .font(.caption2)
                 }
             }
         })

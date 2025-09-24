@@ -2081,9 +2081,6 @@
     "By default, this includes certain User’s Data such as id, name, picture, gender, and their locale. Certain connections of the User, such as the Friends, are also available. If the User has made more of their Data public, more information will be available" : {
 
     },
-    "Cancel" : {
-
-    },
     "Changes to these Terms" : {
 
     },
@@ -3188,6 +3185,9 @@
           }
         }
       }
+    },
+    "her" : {
+
     },
     "How “Do Not Track” requests are handled" : {
 
@@ -8596,7 +8596,10 @@
         }
       }
     },
-    "Start Timer" : {
+    "Start" : {
+
+    },
+    "Stop" : {
 
     },
     "Submit" : {
