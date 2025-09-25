@@ -196,7 +196,7 @@ struct PlayerView: View {
             .foregroundStyle(.secondary)
             HStack {
                 //заглушка
-                playFromStartButton()
+                playFromStartButton(active: playerVM.remoteAudioIsPlaying)
                     .frame(maxWidth: .infinity)
                 
                 Button(action: {
@@ -307,7 +307,7 @@ struct PlayerView: View {
 //                    .frame(maxWidth: 60)
 //            Text("her")
             
-            playFromStartButton()
+            playFromStartButton(active: playerVM.isPlaying)
                 .frame(maxWidth: .infinity)
 
             Button(action: {
@@ -409,6 +409,7 @@ struct PlayerView: View {
         }, label: {
             VStack(spacing: 2) {
                 Image("moon_zzz")
+                    .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 24, height: 24)
@@ -418,20 +419,21 @@ struct PlayerView: View {
                 }
             }
         })
-        .foregroundStyle(.primary)
+        .foregroundStyle(playerVM.sleepTimerIsActive ? .primary : .secondary)
     }
     
     @ViewBuilder
-    func playFromStartButton() -> some View {
+    func playFromStartButton(active: Bool) -> some View {
         Button(action: {
-            playerVM.restartFromBeginning()
+            playerVM.toggleLooping()
         }, label: {
             Image("Frame 77")
+                .renderingMode(.template)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 24, height: 24)
         })
-        .foregroundStyle(.primary)
+        .foregroundStyle(playerVM.isLoopingCurrentTrack ? .primary : .secondary)
     }
 }
 

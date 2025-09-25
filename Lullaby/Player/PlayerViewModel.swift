@@ -99,6 +99,7 @@ final class PlayerViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
     @Published var sleepRemainingSeconds: TimeInterval = 0
     private var sleepTimer: Timer?
     @Published var sleepUntilEndOfTrack: Bool = false
+    @Published var isLoopingCurrentTrack: Bool = false
     
     @MainActor
     func play() {
@@ -216,7 +217,7 @@ final class PlayerViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
                 self.setupRemoteControl()
                 self.player = try AVAudioPlayer(data: data)
                 self.player?.delegate = self
-                self.player?.numberOfLoops = 0
+                self.player?.numberOfLoops = self.isLoopingCurrentTrack ? -1 : 0
                 DispatchQueue.main.async { [weak self] in
                     self?.isDownloaded = true
                     self?.playerIsReady = true
@@ -239,7 +240,17 @@ final class PlayerViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
                 self.remotePlayer?.actionAtItemEnd = .none
                 if let item = self.remotePlayer?.currentItem {
                     self.remoteEndObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: item, queue: .main) { [weak self] _ in
-                        self?.playNext()
+                        guard let self else { return }
+                        if self.isLoopingCurrentTrack {
+                            if let player = self.remotePlayer {
+                                player.seek(to: .zero) { _ in
+                                    player.play()
+                                    self.remoteAudioIsPlaying = true
+                                }
+                            }
+                        } else {
+                            self.playNext()
+                        }
                     }
                 }
                 DispatchQueue.main.async { [weak self] in
@@ -284,7 +295,22 @@ final class PlayerViewModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
 
     // AVAudioPlayerDelegate
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        playNext()
+        if isLoopingCurrentTrack {
+            player.currentTime = 0
+            player.play()
+        } else {
+            playNext()
+        }
+    }
+
+    // MARK: Loop toggle
+    @MainActor
+    func toggleLooping() {
+        isLoopingCurrentTrack.toggle()
+        if let player {
+            player.numberOfLoops = isLoopingCurrentTrack ? -1 : 0
+        }
+        // AVPlayer loop handled in end observer
     }
     
     func downloadAudio() async throws {
