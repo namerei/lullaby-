@@ -11,7 +11,7 @@ struct SleepTimerView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: PlayerViewModel
 
-    // minutes range 1...180
+    // minutes range 1...60
     @State private var selectedMinutes: Int = 15
     @State private var angle: Angle = .degrees(0)
     @State private var isPressingHandle: Bool = false
@@ -71,7 +71,7 @@ struct SleepTimerView: View {
                         
                         // progress arc
                         Circle()
-                            .trim(from: 0, to: CGFloat(Double(selectedMinutes) / 180.0))
+                            .trim(from: 0, to: CGFloat(Double(selectedMinutes) / 60.0))
                             .stroke(accent, style: StrokeStyle(lineWidth: ringWidth, lineCap: .round))
                             .rotationEffect(.degrees(-90))
                             .frame(width: circleSize, height: circleSize)
@@ -82,7 +82,7 @@ struct SleepTimerView: View {
                                 let size = min(geo.size.width, geo.size.height)
                                 let center = CGSize(width: size / 2, height: size / 2)
                                 let r = size / 2 - ringWidth / 2
-                                let progress = Double(selectedMinutes) / 180.0
+                                let progress = Double(selectedMinutes) / 60.0
                                 let theta = 2 * Double.pi * progress - Double.pi / 2
                                 let x = center.width + r * cos(theta)
                                 let y = center.height + r * sin(theta)
@@ -98,7 +98,7 @@ struct SleepTimerView: View {
                             let size = min(geo.size.width, geo.size.height)
                             let center = CGSize(width: size / 2, height: size / 2)
                             let r = size / 2 - ringWidth / 2
-                            let progress = Double(selectedMinutes) / 180.0
+                            let progress = Double(selectedMinutes) / 60.0
                             let theta = 2 * Double.pi * progress - Double.pi / 2
                             let x = center.width + r * cos(theta)
                             let y = center.height + r * sin(theta)
@@ -139,11 +139,11 @@ struct SleepTimerView: View {
                                 let angle = atan2(dy, dx) + .pi / 2
                                 var progress = angle / (2 * .pi)
                                 if progress < 0 { progress += 1 }
-                                let mins = Int(round(progress * 180))
-                                let clamped = min(max(mins, 1), 180)
+                                let mins = Int(round(progress * 60))
+                                let clamped = min(max(mins, 1), 60)
                                 selectedMinutes = clamped
                                 if viewModel.sleepTimerIsActive {
-                                    viewModel.sleepRemainingSeconds = Double(clamped * 60)
+                                    viewModel.sleepRemainingSeconds = min(3600, Double(clamped * 60))
                                 }
                             }
                             .onEnded { _ in
@@ -199,7 +199,7 @@ struct SleepTimerView: View {
         .onAppear {
             // prefill from remaining if active
             if viewModel.sleepTimerIsActive {
-                selectedMinutes = max(1, min(180, Int(ceil(viewModel.sleepRemainingSeconds / 60))))
+                selectedMinutes = max(1, min(60, Int(ceil(viewModel.sleepRemainingSeconds / 60))))
             }
         }
     }

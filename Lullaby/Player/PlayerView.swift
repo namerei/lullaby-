@@ -425,7 +425,7 @@ struct PlayerView: View {
     @ViewBuilder
     func playFromStartButton(active: Bool) -> some View {
         Button(action: {
-            playerVM.toggleLooping()
+            playerVM.restartFromBeginning()
         }, label: {
             Image("Frame 77")
                 .renderingMode(.template)
@@ -433,7 +433,7 @@ struct PlayerView: View {
                 .scaledToFit()
                 .frame(width: 24, height: 24)
         })
-        .foregroundStyle(playerVM.isLoopingCurrentTrack ? .primary : .secondary)
+        .foregroundStyle(active ? .primary : .secondary)
     }
 }
 
